@@ -10,7 +10,7 @@ from typing import Optional
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends, Header, Query, UploadFile, File, Form
-from fastapi.middleware.cors import CORSMSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 
 # Ensure root directory is on Python path
@@ -77,7 +77,7 @@ app = FastAPI(title="LAN Remote Control Agent", lifespan=lifespan)
 
 # Allow CORS for controller frontend
 app.add_middleware(
-    CORSMSMiddleware,
+    CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],

@@ -5,12 +5,11 @@ Main FastAPI server for Controller application (Computer A).
 import os
 import sys
 import asyncio
-import aiohttp
 from typing import Optional
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query, UploadFile, File, Form
-from fastapi.middleware.cors import CORSMSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -40,7 +39,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="LAN Remote Controller Backend", lifespan=lifespan)
 
 app.add_middleware(
-    CORSMSMiddleware,
+    CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
