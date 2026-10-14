@@ -1,0 +1,12 @@
+fastapi>=0.115.0
+uvicorn>=0.30.0
+websockets>=13.0
+pydantic>=2.9.0
+psutil>=6.0.0
+mss>=9.0.0
+pillow>=10.4.0
+pynput>=1.7.7
+python-multipart>=0.0.12
+requests>=2.32.0
+cryptography>=43.0.0
+pytest>=7.4.0
