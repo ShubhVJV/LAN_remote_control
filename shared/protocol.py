@@ -54,6 +54,8 @@ EVENT_MOUSE_DOUBLE_CLICK = "mouse_double_click"
 EVENT_MOUSE_SCROLL = "mouse_scroll"
 EVENT_KEY_DOWN = "key_down"
 EVENT_KEY_UP = "key_up"
+EVENT_TYPE_TEXT = "type_text"
+EVENT_HOTKEY = "hotkey"
 
 # Screen Capture Settings
 DEFAULT_FPS = 15

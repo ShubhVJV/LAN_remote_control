@@ -56,3 +56,18 @@ def test_key_cleanup_on_revoke():
         assert len(controller.pressed_keys) == 1
         controller.release_all_keys()
         assert len(controller.pressed_keys) == 0
+
+def test_type_text_and_hotkey_handling():
+    screen = MockScreenCapture()
+    controller = InputController(screen)
+    
+    # Text typing event
+    text_event = InputEvent(event_type="type_text", text="Hello Remote LAN!")
+    controller.handle_event(text_event, is_authorized=True)
+    
+    # Hotkey event
+    hotkey_event = InputEvent(event_type="hotkey", hotkey="ctrl+c")
+    controller.handle_event(hotkey_event, is_authorized=True)
+    
+    # Drop unauthorized
+    controller.handle_event(text_event, is_authorized=False)

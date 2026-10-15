@@ -139,4 +139,6 @@ class InputEvent(BaseModel):
     dy: Optional[int] = 0
     # Keyboard fields:
     key: Optional[str] = None
+    text: Optional[str] = None
+    hotkey: Optional[str] = None
     modifiers: Optional[List[str]] = Field(default_factory=list)

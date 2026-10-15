@@ -14,6 +14,8 @@ from shared.protocol import (
     EVENT_MOUSE_SCROLL,
     EVENT_KEY_DOWN,
     EVENT_KEY_UP,
+    EVENT_TYPE_TEXT,
+    EVENT_HOTKEY,
 )
 
 try:
@@ -40,6 +42,10 @@ SPECIAL_KEYS = {
     "ctrl": Key.ctrl if PYNPUT_AVAILABLE else None,
     "alt": Key.alt if PYNPUT_AVAILABLE else None,
     "meta": Key.cmd if PYNPUT_AVAILABLE else None,
+    "os": Key.cmd if PYNPUT_AVAILABLE else None,
+    "win": Key.cmd if PYNPUT_AVAILABLE else None,
+    "windows": Key.cmd if PYNPUT_AVAILABLE else None,
+    "menu": Key.menu if PYNPUT_AVAILABLE else None,
     "arrowup": Key.up if PYNPUT_AVAILABLE else None,
     "up": Key.up if PYNPUT_AVAILABLE else None,
     "arrowdown": Key.down if PYNPUT_AVAILABLE else None,
@@ -142,8 +148,32 @@ class InputController:
                         self.keyboard.release(k)
                         self.pressed_keys.discard(k)
 
+            # Direct string / text typing
+            elif event.event_type == EVENT_TYPE_TEXT and event.text:
+                self.keyboard.type(event.text)
+
+            # Hotkey combinations (e.g., "win", "ctrl+c", "ctrl+v", "alt+tab")
+            elif event.event_type == EVENT_HOTKEY and event.hotkey:
+                self._execute_hotkey(event.hotkey)
+
         except Exception as e:
             print(f"[InputControl] Error handling {event.event_type}: {e}")
+
+    def _execute_hotkey(self, hotkey_str: str):
+        if not PYNPUT_AVAILABLE or not self.keyboard:
+            return
+        parts = [p.strip().lower() for p in hotkey_str.split("+")]
+        resolved_keys = [self._resolve_key(p) for p in parts]
+        if any(k is None for k in resolved_keys):
+            return
+        try:
+            for k in resolved_keys:
+                self.keyboard.press(k)
+            time.sleep(0.05)
+            for k in reversed(resolved_keys):
+                self.keyboard.release(k)
+        except Exception as e:
+            print(f"[InputControl] Hotkey execution error: {e}")
 
     def _resolve_key(self, key_str: str):
         lower = key_str.lower()
